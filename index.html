@@ -144,7 +144,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
-                    <img src="logo.png" alt="KKE Logo" class="h-36 w-auto object-contain mr-2" onerror="this.src='https://placehold.co/200x80/003366/white?text=KKE+INFRASTRUCTURE'; this.className='h-10 w-auto object-contain mr-2'">
+                    <img src="logo.png" alt="KKE Logo" class="h-10 md:h-12 w-auto object-contain mr-3" onerror="this.src='https://placehold.co/200x80/003366/white?text=KKE+INFRASTRUCTURE'; this.className='h-10 w-auto object-contain mr-2'">
                     <div class="hidden sm:flex flex-col border-l border-slate-200 pl-4">
                         <span class="text-[10px] text-slate-500 font-black tracking-[0.2em] uppercase">Texas Infrastructure Authority</span>
                     </div>
@@ -343,13 +343,26 @@
             <div id="results" class="pt-12">
                 <h3 class="text-2xl font-bold text-center text-kke-blue mb-10 uppercase tracking-widest">Real Results in the Field</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="comparison-card">
-                        <div class="visual-placeholder flex-col">
-                            <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
-                            <span class="text-lg font-bold">Municipal Sidewalk</span>
-                            <div class="mt-4 flex gap-2">
-                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">Settled 3"</span>
-                                <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Zero-Step Lift</span>
+
+                    <!-- Result Card 1: Sidewalk Trip Hazard -->
+                    <div class="comparison-card overflow-hidden">
+                        <div class="relative overflow-hidden h-48">
+                            <img src="trip-hazard.jpg" alt="Sidewalk trip hazard before repair" class="absolute inset-0 w-full h-full object-cover">
+
+                            <div class="absolute inset-0 w-1/2 overflow-hidden border-r-4 border-white">
+                                <img src="trip-hazard.jpg" alt="Sidewalk repair comparison" class="w-[200%] h-full object-cover">
+                            </div>
+
+                            <div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold tracking-wide">
+                                BEFORE
+                            </div>
+
+                            <div class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded font-bold tracking-wide">
+                                AFTER
+                            </div>
+
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-blue-900 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow">
+                                ↔
                             </div>
                         </div>
                         <div class="p-5">
@@ -357,59 +370,10 @@
                             <p class="text-xs text-slate-500">Restored ADA compliance in under 45 minutes without demolition.</p>
                         </div>
                     </div>
-                    <div class="comparison-card">
-                        <div class="comparison-card overflow-hidden">
 
-<div class="comparison-card overflow-hidden">
-
-  <div class="relative overflow-hidden h-48">
-    
-    <!-- BEFORE (full image) -->
-    <img src="trip-hazard.jpg" class="absolute inset-0 w-full h-full object-cover">
-
-    <!-- AFTER (simulated for now using same image) -->
-    <div class="absolute inset-0 w-1/2 overflow-hidden border-r-4 border-white">
-      <img src="trip-hazard.jpg" class="w-[200%] h-full object-cover">
-    </div>
-
-    <!-- Labels -->
-    <div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
-      BEFORE
-    </div>
-
-    <div class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded">
-      AFTER
-    </div>
-
-    <!-- Slider handle -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-blue-900 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow">
-      ↔
-    </div>
-
-  </div>
-
-  <div class="p-5">
-    <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">
-      Sidewalk Trip Hazard
-    </h4>
-    <p class="text-xs text-slate-500">
-      Restored ADA compliance in under 45 minutes without demolition.
-    </p>
-  </div>
-
-</div>
-
-  <!-- Text content -->
-  <div class="p-5">
-    <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">
-      Sidewalk Trip Hazard
-    </h4>
-    <p class="text-xs text-slate-500">
-      Restored ADA compliance in under 45 minutes without demolition.
-    </p>
-  </div>
-
-</div>
+                    <!-- Result Card 2: Mainline Road Stabilization -->
+                    <div class="comparison-card overflow-hidden">
+                        <div class="visual-placeholder flex-col">
                             <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
                             <span class="text-lg font-bold">Concrete Road Panel</span>
                             <div class="mt-4 flex gap-2">
@@ -422,12 +386,14 @@
                             <p class="text-xs text-slate-500">Filled subgrade voids to prevent premature slab cracking and failure.</p>
                         </div>
                     </div>
-                    <div class="comparison-card">
+
+                    <!-- Result Card 3: Bridge Approach Repair -->
+                    <div class="comparison-card overflow-hidden">
                         <div class="visual-placeholder flex-col">
                             <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
                             <span class="text-lg font-bold">Bridge Approach Slab</span>
                             <div class="mt-4 flex gap-2">
-                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">8" Vertical Drop</span>
+                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">8&quot; Vertical Drop</span>
                                 <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Precision Alignment</span>
                             </div>
                         </div>
