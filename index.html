@@ -372,14 +372,40 @@
                     </div>
 
                     <!-- Result Card 2: Mainline Road Stabilization -->
-                    <div class="comparison-card overflow-hidden">
-                        <div class="visual-placeholder flex-col">
-                            <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
-                            <span class="text-lg font-bold">Concrete Road Panel</span>
-                            <div class="mt-4 flex gap-2">
-                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">Faulting Joint</span>
-                                <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Stabilized</span>
-                            </div>
+                   <!-- Result Card 2: Mainline Road Stabilization -->
+<div class="comparison-card overflow-hidden">
+    <div class="relative overflow-hidden h-48">
+        
+        <!-- AFTER IMAGE -->
+        <img src="roadafter.png" alt="Road after repair" class="absolute inset-0 w-full h-full object-cover">
+
+        <!-- BEFORE IMAGE (left side reveal) -->
+        <div class="absolute inset-0 w-1/2 overflow-hidden border-r-4 border-white">
+            <img src="road.jpeg" alt="Road before repair" class="w-[200%] h-full object-cover">
+        </div>
+
+        <!-- Labels -->
+        <div class="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded font-bold tracking-wide">
+            BEFORE
+        </div>
+
+        <div class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded font-bold tracking-wide">
+            AFTER
+        </div>
+
+        <!-- Slider Indicator -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-blue-900 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow">
+            ↔
+        </div>
+    </div>
+
+    <div class="p-5">
+        <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">Mainline Road Stabilization</h4>
+        <p class="text-xs text-slate-500">
+            Eliminated panel faulting and restored ride quality without full-depth replacement.
+        </p>
+    </div>
+</div>
                         </div>
                         <div class="p-5">
                             <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">Mainline Road Stabilization</h4>
