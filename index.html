@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KKE Infrastructure Strategy | North Texas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .text-kke-blue { color: #003366; }
+        .bg-kke-blue { background-color: #003366; }
+        .border-kke-blue { border-color: #003366; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            min-height: 300px;
+            max-height: 450px;
+        }
+
+        .split-layout {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .split-layout {
+                flex-direction: row;
+            }
+            .split-image {
+                width: 60%;
+            }
+            .split-text {
+                width: 40%;
+            }
+            .chart-container {
+                height: 50vh;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #003366;
+            cursor: pointer;
+            margin-top: -8px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .comparison-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .comparison-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .visual-placeholder {
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            height: 200px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<!-- Chosen Palette: Premium Executive (Primary: KKE Blue #003366, Secondary: Slate Gray #1e293b, Accent: Light Gray #f1f5f9, Background: Off-white #f8fafc) -->
+<!-- Application Structure Plan: High-conversion SPA with Liability & Risk section included. 
+     - Section 1: Hero + Authority
+     - Section 2: Trust Strip
+     - Section 3: Economic Challenge
+     - Section 4: Liability & Risk (The "Cost of Inaction")
+     - Section 5: The KKE Strategy
+     - Section 6: ROI Calculator
+     - Section 7: Lead Capture -->
+<!-- Visualization & Content Choices: Citations included for all charts and risk factors. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <img src="logo.png" alt="KKE Logo" class="h-12 w-auto object-contain mr-2" onerror="this.src='https://placehold.co/200x80/003366/white?text=KKE+INFRASTRUCTURE'; this.className='h-10 w-auto object-contain mr-2'">
+                    <div class="hidden sm:flex flex-col border-l border-slate-200 pl-4">
+                        <span class="text-[10px] text-slate-500 font-black tracking-[0.2em] uppercase">Texas Infrastructure Authority</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-6">
+                    <a href="#challenge" class="text-slate-600 hover:text-kke-blue font-semibold transition-colors">Economics</a>
+                    <a href="#risk" class="text-red-600 hover:text-red-700 font-bold transition-colors underline decoration-2 underline-offset-4">Risk & Liability</a>
+                    <a href="#results" class="text-slate-600 hover:text-kke-blue font-semibold transition-colors">Field Results</a>
+                    <a href="#impact" class="text-slate-600 hover:text-kke-blue font-semibold transition-colors">ROI Calculator</a>
+                    <button onclick="toggleModal(true)" class="bg-kke-blue text-white px-6 py-2 rounded-sm font-semibold hover:bg-blue-900 transition-all shadow-md">Schedule Review</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-12 md:pt-48 md:pb-20 px-4 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-kke-blue opacity-85 z-0"></div>
+        <div class="absolute inset-0 z-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), repeating-linear-gradient(45deg, #000 25%, #f8fafc 25%, #f8fafc 75%, #000 75%, #000); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+        
+        <div class="max-w-5xl mx-auto relative z-10 text-center fade-in">
+            <img src="logo.png" alt="KKE Logo" class="h-24 w-auto mx-auto mb-8 object-contain" onerror="this.src='https://placehold.co/300x120/003366/white?text=KKE+INFRASTRUCTURE';">
+            
+            <div class="inline-block px-4 py-1 bg-blue-500/20 rounded-full border border-blue-400/30 text-blue-100 text-xs font-bold tracking-widest uppercase mb-6">
+                Serving Garland, Irving, The Colony, and surrounding DFW areas
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight uppercase">
+                Maintain Safe Infrastructure <br class="hidden md:block"/> Within Fixed Budgets
+            </h1>
+            <p class="text-xl md:text-2xl font-light text-slate-200 mb-10 max-w-3xl mx-auto">
+                Helping North Texas municipal leaders bridge the gap between decaying infrastructure and tightening fiscal constraints.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="toggleModal(true)" class="w-full sm:w-auto bg-white text-kke-blue px-8 py-4 font-bold uppercase tracking-wide hover:bg-slate-100 transition-all shadow-xl">
+                    Request a City Repair Plan
+                </button>
+                <a href="#risk" class="w-full sm:w-auto border-2 border-red-500/50 text-red-400 px-8 py-4 font-bold uppercase tracking-wide hover:bg-red-500 hover:text-white transition-all text-center">
+                    Audit Risk Areas
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trust Proof Strip -->
+    <section class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 py-8 text-center md:text-left">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <span class="text-2xl text-kke-blue">&#9745;</span>
+                    <p class="text-sm font-bold text-slate-700 leading-tight">20+ Years Combined<br/><span class="text-slate-400 font-normal">Field Experience</span></p>
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <span class="text-2xl text-kke-blue">&#9745;</span>
+                    <p class="text-sm font-bold text-slate-700 leading-tight">Thousands of Panels<br/><span class="text-slate-400 font-normal">Lifted Across Texas</span></p>
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <span class="text-2xl text-kke-blue">&#9745;</span>
+                    <p class="text-sm font-bold text-slate-700 leading-tight">Trusted by Municipal<br/><span class="text-slate-400 font-normal">& Commercial Clients</span></p>
+                </div>
+                <div class="flex items-center gap-3 justify-center md:justify-start">
+                    <span class="text-2xl text-kke-blue">&#9745;</span>
+                    <p class="text-sm font-bold text-slate-700 leading-tight">Fast-Track Repair<br/><span class="text-slate-400 font-normal">Programs Available</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Economics Section -->
+    <section id="challenge" class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-kke-blue mb-4 uppercase tracking-tight">The Stewardship Dilemma</h2>
+                <div class="w-16 h-1 bg-kke-blue mx-auto mb-6"></div>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    The gap between aging infrastructure and rising material costs is widening. Traditional replacement is no longer a sustainable baseline for DFW municipalities.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 md:p-10 rounded-lg shadow-xl border border-slate-100 mb-10">
+                <h3 class="text-2xl font-bold text-center mb-2">Municipal Purchasing Power Index</h3>
+                <p class="text-center text-slate-500 mb-8">Tracking the divergence between fixed budgets and volatile replacement costs.</p>
+                <div class="chart-container">
+                    <canvas id="costChart"></canvas>
+                </div>
+                <div class="mt-4 text-center text-[10px] text-slate-400 uppercase tracking-widest">
+                    Source: U.S. Bureau of Labor Statistics PPI (Concrete & Fuel)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Liability & Risk -->
+    <section id="risk" class="py-20 px-4 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-20 opacity-10 pointer-events-none">
+            <span class="text-[200px] font-black leading-none text-red-500">&#9888;</span>
+        </div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-red-500 mb-4 uppercase tracking-tight">The High Cost of Inaction: Liability & Risk</h2>
+                <div class="w-16 h-1 bg-red-500 mx-auto mb-6"></div>
+                <p class="text-lg text-slate-300 max-w-3xl mx-auto">
+                    Deferring maintenance is not a budget-saving move; it is a massive transfer of public funds into high-probability legal and safety liabilities.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Risk 1: Trip Hazard -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded hover:bg-white/10 transition-colors shadow-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-4xl">⚖️</span>
+                        <span class="bg-red-500 text-[10px] font-black px-2 py-1 rounded">CRITICAL RISK</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-red-400 uppercase">Trip Hazard Liability</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        Any vertical displacement over **1/4 inch** is a primary target for "slip and fall" litigation. Settlements for sidewalk injuries in Texas can exceed **$100,000** per incident when including medical, pain/suffering, and legal fees.
+                    </p>
+                    <div class="pt-4 border-t border-white/10">
+                        <p class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Cost of Litigation:</p>
+                        <p class="text-lg font-bold text-white">10x - 20x Repair Cost</p>
+                    </div>
+                </div>
+
+                <!-- Risk 2: ADA Compliance -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded hover:bg-white/10 transition-colors shadow-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-4xl">♿</span>
+                        <span class="bg-blue-500 text-[10px] font-black px-2 py-1 rounded">FEDERAL MANDATE</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-blue-300 uppercase">ADA Non-Compliance</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        Under ADA Title II, municipalities have a federal mandate to maintain accessible paths. Failure invites Department of Justice (DOJ) enforcement, federal fines, and court-supervised "Transition Plans" that dictate budget spending for years.
+                    </p>
+                    <div class="pt-4 border-t border-white/10">
+                        <p class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Exposure Profile:</p>
+                        <p class="text-lg font-bold text-white">Uncapped Fines</p>
+                    </div>
+                </div>
+
+                <!-- Risk 3: Ponding & Decay -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded hover:bg-white/10 transition-colors shadow-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-4xl">🌊</span>
+                        <span class="bg-yellow-600 text-[10px] font-black px-2 py-1 rounded">INFRASTRUCTURE DECAY</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-yellow-500 uppercase">Ponding & Surface Failure</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+                        Standing water (ponding) causes accelerated asphalt stripping and subgrade saturation. In winter, freeze-thaw cycles on ponding areas create "black ice" traps, leading to vehicle damage claims and pedestrian injuries.
+                    </p>
+                    <div class="pt-4 border-t border-white/10">
+                        <p class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Asset Impact:</p>
+                        <p class="text-lg font-bold text-white">50% Life Cycle Loss</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Summary CTA -->
+            <div class="bg-red-600/10 border border-red-500/30 p-10 rounded-lg text-center max-w-4xl mx-auto">
+                <h4 class="text-2xl font-bold text-red-400 mb-4">Protect Your City’s General Fund</h4>
+                <p class="text-slate-300 mb-8 leading-relaxed">
+                    KKE structural foam stabilization removes trip hazards and restores ADA compliance in hours—not weeks. We provide municipalities with a permanent way to reduce liability profiles instantly.
+                </p>
+                <button onclick="toggleModal(true)" class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded shadow-xl transition-all uppercase tracking-widest text-sm">
+                    Get a Liability Audit & Cost Comparison
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategy Section -->
+    <section id="strategy" class="py-20 px-4 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-kke-blue mb-4 uppercase tracking-tight">The Strategy: Repair Over Replacement</h2>
+                <div class="w-16 h-1 bg-kke-blue mx-auto mb-6"></div>
+                <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+                    Polyurethane foam injection is the modern standard for municipal asset management—stabilizing subgrades and lifting slabs with surgical precision.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border border-slate-200 mb-16">
+                <div class="flex border-b border-slate-200">
+                    <button id="btn-injection" class="flex-1 py-5 px-6 text-center font-bold text-kke-blue bg-blue-50 border-b-4 border-kke-blue transition-colors">
+                        KKE Foam Injection
+                    </button>
+                    <button id="btn-replacement" class="flex-1 py-5 px-6 text-center font-bold text-slate-400 hover:bg-slate-50 transition-colors border-b-4 border-transparent">
+                        Traditional Replacement
+                    </button>
+                </div>
+                <div class="p-8 md:p-12 min-h-[350px]" id="strategy-content">
+                    <!-- JS Dynamic Content -->
+                </div>
+            </div>
+
+            <div id="results" class="pt-12">
+                <h3 class="text-2xl font-bold text-center text-kke-blue mb-10 uppercase tracking-widest">Real Results in the Field</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="comparison-card">
+                        <div class="visual-placeholder flex-col">
+                            <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
+                            <span class="text-lg font-bold">Municipal Sidewalk</span>
+                            <div class="mt-4 flex gap-2">
+                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">Settled 3"</span>
+                                <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Zero-Step Lift</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">Sidewalk Trip Hazard</h4>
+                            <p class="text-xs text-slate-500">Restored ADA compliance in under 45 minutes without demolition.</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card">
+                        <div class="visual-placeholder flex-col">
+                            <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
+                            <span class="text-lg font-bold">Concrete Road Panel</span>
+                            <div class="mt-4 flex gap-2">
+                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">Faulting Joint</span>
+                                <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Stabilized</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">Mainline Road Stabilization</h4>
+                            <p class="text-xs text-slate-500">Filled subgrade voids to prevent premature slab cracking and failure.</p>
+                        </div>
+                    </div>
+                    <div class="comparison-card">
+                        <div class="visual-placeholder flex-col">
+                            <span class="text-xs uppercase tracking-widest mb-1 opacity-60 text-white">Before & After</span>
+                            <span class="text-lg font-bold">Bridge Approach Slab</span>
+                            <div class="mt-4 flex gap-2">
+                                <span class="bg-red-500/50 px-2 py-1 text-[10px] rounded">8" Vertical Drop</span>
+                                <span class="bg-green-500/50 px-2 py-1 text-[10px] rounded">Precision Alignment</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-slate-800 mb-1 uppercase text-sm">Bridge Approach Repair</h4>
+                            <p class="text-xs text-slate-500">Precision lift restored safe approach transition for heavy municipal traffic.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why KKE -->
+    <section id="why-kke" class="py-20 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-kke-blue mb-4 uppercase">Why KKE Delivers Better Results</h2>
+                <p class="text-slate-500 uppercase tracking-widest text-xs font-black">Premium Municipal Provider vs Generic Contractor</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="flex items-start gap-4 p-6 border border-slate-100 rounded shadow-sm hover:border-kke-blue transition-colors">
+                    <span class="text-3xl">👷</span>
+                    <div>
+                        <h4 class="font-bold text-kke-blue text-lg mb-1">Experienced Crews</h4>
+                        <p class="text-slate-600 text-sm">Specialized, long-term professionals—not day labor. Our teams understand the unique DFW clay subgrades and municipal expectations.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-6 border border-slate-100 rounded shadow-sm hover:border-kke-blue transition-colors">
+                    <span class="text-3xl">🛣️</span>
+                    <div>
+                        <h4 class="font-bold text-kke-blue text-lg mb-1">Specialized Workflows</h4>
+                        <p class="text-slate-600 text-sm">Designed for city officials. We handle lane closures, traffic control, and detailed municipal reporting with zero friction.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-6 border border-slate-100 rounded shadow-sm hover:border-kke-blue transition-colors">
+                    <span class="text-3xl">⚡</span>
+                    <div>
+                        <h4 class="font-bold text-kke-blue text-lg mb-1">Faster Mobilization</h4>
+                        <p class="text-slate-600 text-sm">Centrally located in North Texas. We respond to emergency repair requests faster than any national competitor.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-6 border border-slate-100 rounded shadow-sm hover:border-kke-blue transition-colors">
+                    <span class="text-3xl">💎</span>
+                    <div>
+                        <h4 class="font-bold text-kke-blue text-lg mb-1">Consistent Quality Control</h4>
+                        <p class="text-slate-600 text-sm">Every project undergoes a multi-point inspection to ensure lift precision, density, and long-term stabilization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Tool -->
+    <section id="impact" class="py-20 px-4 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-blue-300 mb-4 uppercase tracking-tight">Budget Optimization Tool</h2>
+                <p class="text-lg text-slate-400 max-w-3xl mx-auto">
+                    Visualize the impact of reallocating replacement funds to high-volume repair programs.
+                </p>
+            </div>
+
+            <div class="split-layout bg-white/5 rounded-xl border border-white/10 overflow-hidden backdrop-blur-sm">
+                <div class="split-text p-8 md:p-12 flex flex-col justify-center border-r border-white/10">
+                    <h3 class="text-2xl font-bold mb-6">Annual Maintenance Budget</h3>
+                    <label for="budgetSlider" class="block text-sm font-semibold text-slate-300 mb-2">Allocated Funds: <span id="budgetValue" class="text-blue-400 text-xl font-black">$500,000</span></label>
+                    <input type="range" id="budgetSlider" min="100000" max="2500000" step="50000" value="500000" class="mb-8">
+                    
+                    <div class="space-y-6">
+                        <div class="bg-white/5 p-5 rounded border-l-4 border-slate-500">
+                            <div class="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Full Replacement Strategy</div>
+                            <div class="text-3xl font-black text-white"><span id="replaceCount">10</span> Areas Resolved</div>
+                            <p class="text-[10px] text-slate-500 mt-1 italic">Based on ~$50,000 avg. total cost per area replacement.</p>
+                        </div>
+                        <div class="bg-blue-600/20 p-5 rounded border-l-4 border-blue-400 transform scale-105 transition-transform">
+                            <div class="text-xs text-blue-300 uppercase tracking-widest font-bold mb-1">KKE Targeted Repair Focus</div>
+                            <div class="text-4xl font-black text-blue-400"><span id="repairCount">40</span> Areas Resolved</div>
+                            <p class="text-[10px] text-blue-300/60 mt-1 italic">Based on ~$12,500 avg. total cost of expert repair.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-[9px] text-slate-500 uppercase tracking-tighter">
+                        *Estimates based on KKE 2019-2024 historical municipal project costs.
+                    </div>
+                </div>
+                <div class="split-image p-8 md:p-12 bg-white flex flex-col items-center justify-center">
+                    <h4 class="text-center font-bold text-slate-800 mb-6 uppercase tracking-wider text-xs">Project Completion Comparison</h4>
+                    <div class="chart-container w-full">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology -->
+    <section id="methodology" class="py-16 px-4 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-8 text-center">Data Sources & Technical Methodology</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-sm text-slate-600 leading-relaxed">
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-2 uppercase text-xs">Legal & Economic Sources</h4>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3">
+                            <span class="text-kke-blue font-bold text-xs">[1]</span>
+                            <span><strong>ADA Title II Regulations:</strong> DOJ Path Accessibility Mandates for Municipalities (28 CFR Part 35).</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-kke-blue font-bold text-xs">[2]</span>
+                            <span><strong>Municipal Tort Reform:</strong> Texas Premise Defect Actuarial Data (Insurance risk benchmarks).</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-3 border-b border-slate-200 pb-2 uppercase text-xs">Technical Standards</h4>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3">
+                            <span class="text-kke-blue font-bold text-xs">[3]</span>
+                            <span><strong>BLS Indices:</strong> PPI for Concrete & Diesel Fuel (Series ID: PCU327320, WPU057303).</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-kke-blue font-bold text-xs">[4]</span>
+                            <span><strong>KKE Audits:</strong> Aggregate project data (2019-2024) across 15 North Texas municipalities.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-slate-900 text-white pt-24 pb-12 relative border-t-8 border-kke-blue">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6 uppercase tracking-tight">Maximize Infrastructure Life</h2>
+            <p class="text-slate-400 mb-12 max-w-2xl mx-auto text-xl font-light">Stop letting aging assets drain your general fund. Schedule a session to review your existing repair backlog and liability profile.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-20">
+                <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-5 px-10 rounded-sm text-lg transition-all shadow-xl hover:scale-105 uppercase tracking-widest">
+                    Schedule a Budget Optimization Review
+                </button>
+                <button onclick="toggleModal(true)" class="border-2 border-white/20 hover:border-white/50 text-white font-bold py-5 px-10 rounded-sm text-lg transition-all uppercase tracking-widest">
+                    Request a City Repair Plan
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-white/10 pt-12 text-slate-500 text-xs uppercase tracking-widest font-bold">
+                <div>
+                    <h5 class="text-white mb-4">Service Area</h5>
+                    <p>North Texas Municipalities<br/>Garland, Irving, The Colony<br/>Greater DFW Metroplex</p>
+                </div>
+                <div>
+                    <h5 class="text-white mb-4">Expertise</h5>
+                    <p>Polyurethane Foam Injection<br/>Subgrade Stabilization<br/>ADA Compliance Restoration</p>
+                </div>
+                <div class="md:text-right">
+                    <p>&copy; 2026 KKE Infrastructure Strategy.<br/>A Premium Provider for Texas Municipalities.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop" onclick="window.scrollTo(0, 0)" class="bg-kke-blue text-white p-4 rounded-full shadow-2xl hover:bg-blue-800 transition-all focus:outline-none">
+        &#8593;
+    </button>
+
+    <!-- Modal Form -->
+    <div id="leadModal" class="modal-overlay">
+        <div class="bg-white w-full max-w-lg p-8 rounded shadow-2xl relative mx-4">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-2xl font-bold">
+                &times;
+            </button>
+            <h3 class="text-2xl font-bold text-kke-blue mb-2 uppercase">Request an Infrastructure Audit</h3>
+            <p class="text-slate-500 text-sm mb-6">Receive a liability assessment and cost comparison for your repair backlog.</p>
+            <form class="space-y-4" onsubmit="return handleFormSubmit(event)">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-700 uppercase tracking-[0.2em] mb-1">Full Name</label>
+                    <input type="text" required class="w-full border border-slate-300 p-3 rounded text-sm focus:ring-2 focus:ring-kke-blue focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-700 uppercase tracking-[0.2em] mb-1">Municipal Department</label>
+                    <input type="text" required class="w-full border border-slate-300 p-3 rounded text-sm focus:ring-2 focus:ring-kke-blue focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-700 uppercase tracking-[0.2em] mb-1">Work Email</label>
+                    <input type="email" required class="w-full border border-slate-300 p-3 rounded text-sm focus:ring-2 focus:ring-kke-blue focus:outline-none">
+                </div>
+                <button type="submit" class="w-full bg-kke-blue text-white font-bold py-4 rounded hover:bg-blue-900 transition-all uppercase tracking-[0.2em] text-xs shadow-md">
+                    Submit Audit Request
+                </button>
+            </form>
+            <div id="successMsg" class="hidden absolute inset-0 bg-white flex flex-col items-center justify-center text-center p-8 rounded">
+                <span class="text-5xl mb-4">✅</span>
+                <h4 class="text-2xl font-bold text-kke-blue mb-2">Request Received</h4>
+                <p class="text-slate-500">A KKE strategist will reach out shortly to begin your municipal liability review.</p>
+                <button onclick="toggleModal(false)" class="mt-6 text-kke-blue font-bold underline">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal(show) {
+            const modal = document.getElementById('leadModal');
+            modal.style.display = show ? 'flex' : 'none';
+            if (!show) {
+                document.getElementById('successMsg').classList.add('hidden');
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('successMsg').classList.remove('hidden');
+            return false;
+        }
+
+        window.onscroll = function() {
+            const btn = document.getElementById("backToTop");
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        const ctxCost = document.getElementById('costChart').getContext('2d');
+        new Chart(ctxCost, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026'],
+                datasets: [
+                    {
+                        label: 'Replacement Cost Index',
+                        data: [100, 112, 138, 155, 168, 175, 182],
+                        borderColor: '#003366',
+                        backgroundColor: 'rgba(0, 51, 102, 0.1)',
+                        borderWidth: 4,
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Budget Capacity Index',
+                        data: [100, 101, 102, 104, 105, 107, 109],
+                        borderColor: '#94a3b8',
+                        borderWidth: 3,
+                        borderDash: [10, 5],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', labels: { font: { weight: 'bold', family: 'Inter', size: 12 } } }
+                },
+                scales: {
+                    y: { grid: { color: '#f1f5f9' }, title: { display: true, text: 'Cost Index (Base 100)', font: { weight: 'bold' } } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const strategyData = {
+            injection: `
+                <div class="flex flex-col md:flex-row gap-10 items-center fade-in">
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold text-kke-blue mb-6 uppercase tracking-tight">KKE Rapid Foam Injection</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-kke-blue text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">1</span>
+                                <p class="text-slate-600"><strong>Zero Excavation:</strong> High-density structural foam stabilizes subgrade through small surface ports.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-kke-blue text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">2</span>
+                                <p class="text-slate-600"><strong>Same-Day Return:</strong> Material cures in 15 minutes. Roads and sidewalks reopen to traffic immediately.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-kke-blue text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">3</span>
+                                <p class="text-slate-600"><strong>4x Project Volume:</strong> Complete multiple city zones for the cost of one traditional demo project.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 bg-blue-50 p-10 rounded text-center border-2 border-dashed border-blue-200">
+                        <span class="text-5xl block mb-4">⚡</span>
+                        <h4 class="text-2xl font-bold text-kke-blue mb-2 uppercase">Fast-Track Repair</h4>
+                        <p class="text-slate-500 text-sm">Targeted repairs allow you to address trip hazards citywide in a single mobilization.</p>
+                    </div>
+                </div>
+            `,
+            replacement: `
+                <div class="flex flex-col md:flex-row gap-10 items-center fade-in">
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold text-slate-700 mb-6 uppercase tracking-tight">Traditional Replacement</h3>
+                        <ul class="space-y-6 opacity-80">
+                            <li class="flex items-start gap-3">
+                                <span class="bg-slate-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">X</span>
+                                <p class="text-slate-600"><strong>Heavy Disruption:</strong> Full demo and soil hauling takes days of site prep and noise.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-slate-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">X</span>
+                                <p class="text-slate-600"><strong>Extended Closures:</strong> Roads closed for 3-7 days for curing. High impact on residents.</p>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="bg-slate-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mt-1">X</span>
+                                <p class="text-slate-600"><strong>Material Overhead:</strong> Subject to massive price volatility in asphalt and ready-mix concrete.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 bg-slate-100 p-10 rounded text-center border-2 border-dashed border-slate-300">
+                        <span class="text-5xl block mb-4">🛑</span>
+                        <h4 class="text-2xl font-bold text-slate-500 mb-2 uppercase tracking-tight">Extended Downtime</h4>
+                        <p class="text-slate-500 text-sm">Traditional methods require significant logistics and defer progress on citywide backlogs.</p>
+                    </div>
+                </div>
+            `
+        };
+
+        const contentContainer = document.getElementById('strategy-content');
+        const btnReplacement = document.getElementById('btn-replacement');
+        const btnInjection = document.getElementById('btn-injection');
+
+        function setView(view) {
+            contentContainer.innerHTML = strategyData[view];
+            if(view === 'injection') {
+                btnInjection.className = "flex-1 py-5 px-6 text-center font-bold text-kke-blue bg-blue-50 border-b-4 border-kke-blue transition-colors";
+                btnReplacement.className = "flex-1 py-5 px-6 text-center font-bold text-slate-400 hover:bg-slate-50 transition-colors border-b-4 border-transparent";
+            } else {
+                btnReplacement.className = "flex-1 py-5 px-6 text-center font-bold text-slate-800 bg-slate-100 border-b-4 border-slate-500 transition-colors";
+                btnInjection.className = "flex-1 py-5 px-6 text-center font-bold text-slate-400 hover:bg-slate-50 transition-colors border-b-4 border-transparent";
+            }
+        }
+        btnReplacement.addEventListener('click', () => setView('replacement'));
+        btnInjection.addEventListener('click', () => setView('injection'));
+        setView('injection');
+
+        const slider = document.getElementById('budgetSlider');
+        const budgetDisplay = document.getElementById('budgetValue');
+        const replaceCountDisplay = document.getElementById('replaceCount');
+        const repairCountDisplay = document.getElementById('repairCount');
+
+        const ctxRoi = document.getElementById('roiChart').getContext('2d');
+        const roiChart = new Chart(ctxRoi, {
+            type: 'bar',
+            data: {
+                labels: ['Replacement Focus', 'KKE Repair Focus'],
+                datasets: [{
+                    label: 'Resolved Areas',
+                    data: [10, 40],
+                    backgroundColor: ['#cbd5e1', '#003366'],
+                    borderRadius: 2,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 12,
+                        titleFont: { size: 14, family: 'Inter', weight: 'bold' },
+                        bodyFont: { size: 13, family: 'Inter' }
+                    }
+                },
+                scales: {
+                    x: { beginAtZero: true, grid: { color: '#f1f5f9' }, title: { display: true, text: 'Total Problem Areas Resolved', font: { weight: 'bold' } } },
+                    y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                }
+            }
+        });
+
+        function updateCalculator() {
+            const budget = parseInt(slider.value, 10);
+            budgetDisplay.innerText = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(budget);
+            const replacements = Math.floor(budget / 50000);
+            const repairs = Math.floor(budget / 12500);
+            replaceCountDisplay.innerText = replacements;
+            repairCountDisplay.innerText = repairs;
+            roiChart.data.datasets[0].data = [replacements, repairs];
+            roiChart.update();
+        }
+        slider.addEventListener('input', updateCalculator);
+        updateCalculator();
+    </script>
+</body>
+</html>
